@@ -12,6 +12,8 @@
   height: 50px;
   width: 200px;
   text-align: right;
+  overflow-y: hidden;
+  overflow-x: scroll;
 }
 
 .clear {

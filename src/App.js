@@ -37,18 +37,19 @@ class Calculator extends Component {
 
   clickButton(i) {
     const display = this.state.display.slice();
-    var result;
-    try {
-      result = (parseFloat(eval(display).toFixed(12))).toString();
-    }
-    catch(err) {
-      result = "Err";
-    }
+    
     if (i == "=") {
+      var result;
+      try {
+        result = (parseFloat(eval(display.replace(/\u2212/gi,"-").replace(/\xF7/gi,"/").replace(/\xD7/gi,"*")).toFixed(12))).toString().replace(/-/gi,"\u2212");
+      }
+      catch(err) {
+        result = "Err";
+      }
       this.setState({
         display: result,
       });
-    } else if ("0123456789+-/x.".includes(i)) {
+    } else if ("0123456789\u2212+\xD7.\xF7".includes(i)) {
       this.setState({
         display: display + i,
       });
@@ -102,19 +103,19 @@ class Calculator extends Component {
           {this.renderButton("7")}
           {this.renderButton("8")}
           {this.renderButton("9")}
-          {this.renderButton("/")}
+          {this.renderButton("\xF7")}
         </div>
         <div className="calc-row">
           {this.renderButton("4")}
           {this.renderButton("5")}
           {this.renderButton("6")}
-          {this.renderButton("x")}
+          {this.renderButton("\xD7")}
         </div>
         <div className="calc-row">
           {this.renderButton("1")}
           {this.renderButton("2")}
           {this.renderButton("3")}
-          {this.renderButton("-")}
+          {this.renderButton("\u2212")}
         </div>
         <div className="calc-row">
           {this.renderButton("0")}
