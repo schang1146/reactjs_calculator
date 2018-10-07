@@ -37,9 +37,22 @@ class Calculator extends Component {
 
   clickButton(i) {
     const display = this.state.display.slice();
-    this.setState({
-      display: display + i,
-    });
+    var result;
+    try {
+      result = (parseFloat(eval(display).toFixed(12))).toString();
+    }
+    catch(err) {
+      result = "Err";
+    }
+    if (i == "=") {
+      this.setState({
+        display: result,
+      });
+    } else if ("0123456789+-/x.".includes(i)) {
+      this.setState({
+        display: display + i,
+      });
+    }
   }
 
   clickClear() {
@@ -84,25 +97,30 @@ class Calculator extends Component {
         </div>
         <div className="calc-row">
           {this.renderClear("Clear")}
-          {this.renderButton("/")}
         </div>
         <div className="calc-row">
           {this.renderButton("7")}
           {this.renderButton("8")}
           {this.renderButton("9")}
-          {this.renderButton("-")}
+          {this.renderButton("/")}
         </div>
         <div className="calc-row">
           {this.renderButton("4")}
           {this.renderButton("5")}
           {this.renderButton("6")}
-          {this.renderButton("+")}
+          {this.renderButton("x")}
         </div>
         <div className="calc-row">
           {this.renderButton("1")}
           {this.renderButton("2")}
           {this.renderButton("3")}
+          {this.renderButton("-")}
+        </div>
+        <div className="calc-row">
+          {this.renderButton("0")}
+          {this.renderButton(".")}
           {this.renderButton("=")}
+          {this.renderButton("+")}
         </div>
       </div>
     );
