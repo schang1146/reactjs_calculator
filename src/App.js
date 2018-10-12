@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class Display extends Component {
-  render() {
-    return (
-      <p className="display">
-        {this.props.value}
-      </p>
-    );
-  }
+/* eslint no-eval: 0*/  
+
+function Display(props) {
+  return (
+    <p className="display">
+      {props.value}
+    </p>
+  );
 }
 
 function Clear(props) {
@@ -30,13 +30,15 @@ function Button(props) {
 class Calculator extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      display: [""]
-    };
+    this.state = ({
+      display: "",
+      history: "",
+      isJustEval: false
+    });
   }
 
   clickButton(i) {
-    const display = this.state.display.slice();
+    const display = this.state.display;
     
     if (i === "=") {
       var result;
@@ -48,17 +50,33 @@ class Calculator extends Component {
       }
       this.setState({
         display: result,
+        isJustEval: true
       });
+      if (this.state.display !== this.state.history) {
+        this.setState({
+          history: display + "=",
+        })
+      }
     } else if ("0123456789\u2212+\xD7.\xF7".includes(i)) {
-      this.setState({
-        display: display + i,
-      });
+      if (this.state.isJustEval & "0123456789.".includes(i)) {
+        this.setState({
+          display: i,
+          isJustEval: false
+        });
+      } else {  
+        this.setState({
+          display: display + i,
+          isJustEval: false
+        });
+      }
     }
   }
 
   clickClear() {
     this.setState({
       display: "",
+      history: "",
+      isJustEval: false
     });
   }
   
@@ -93,6 +111,10 @@ class Calculator extends Component {
     
     return (
       <div className="calculator">
+        <div className="title"> Simple Calculator</div>
+        <div className="history">
+          {this.state.history}
+        </div>
         <div className="calc-row">
           {this.renderDisplay(status)}
         </div>
