@@ -38,13 +38,13 @@ class Calculator extends Component {
   clickButton(i) {
     const display = this.state.display.slice();
     
-    if (i == "=") {
+    if (i === "=") {
       var result;
       try {
         result = (parseFloat(eval(display.replace(/\u2212/gi,"-").replace(/\xF7/gi,"/").replace(/\xD7/gi,"*")).toFixed(12))).toString().replace(/-/gi,"\u2212");
       }
       catch(err) {
-        result = "Err";
+        result = "Error";
       }
       this.setState({
         display: result,
@@ -70,7 +70,7 @@ class Calculator extends Component {
     );
   }
 
-  renderClear(i) {
+  renderClear(i) {  
     return (
       <Clear
         value={i}
@@ -92,7 +92,7 @@ class Calculator extends Component {
     const status = this.state.display;
     
     return (
-      <div className="Calculator">
+      <div className="calculator">
         <div className="calc-row">
           {this.renderDisplay(status)}
         </div>
