@@ -44,6 +44,9 @@ class Calculator extends Component {
       var result;
       try {
         result = (parseFloat(eval(display.replace(/\u2212/gi,"-").replace(/\xF7/gi,"/").replace(/\xD7/gi,"*")).toFixed(12))).toString().replace(/-/gi,"\u2212");
+        if (Math.abs(Number(result)) > 100000000000) {
+          result = Number(result).toExponential(5).toString()
+        }
       }
       catch(err) {
         result = "Error";
